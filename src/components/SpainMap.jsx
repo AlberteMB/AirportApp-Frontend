@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useMap } from "react-leaflet";
+//import { useMap } from "react-leaflet";
 import Airport from "./components/Airport";
 
 const SpainMap = () => {
     const [ loading, setLoading ] = useState(false);
-    const { airportList, setAirportList } = useState([]);
-    const { airportButton, setAirportButton } = useState(false);
-    const { flightSelect, setFlightSelect } = useState(false);
+    const [ airportList, setAirportList ] = useState([]);
+    //const { airportButton, setAirportButton } = useState(false);
+    const [flightSelect, setFlightSelect ] = useState(false);
 
   const handleAirportsLoaded = (airports) => {
     setAirportList(airports);
