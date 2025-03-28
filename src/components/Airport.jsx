@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
-import { airports } from "../data/airports";
+import airports from "../middleware/airports"; 
 
-const Airport = () => {
-    const [airports, setAirports] = useState(() => {
+const Airport = ({ onAirportsLoaded }) => {
+    const [airportList, setAirportList] = useState([]); 
+
+    useEffect(() => {
         const fetchAirports = async () => {
-        try {                         
-            const response = await airports.get(`/airports`);
-            setAirports(response.data);   
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    return (
-        <div>
-            <h1>airport</h1>
-        </div>
-    );
-})
-}
+            try {                         
+                const response = await airports.get("/"); 
+                setAirportList(response.data);
+                if (onAirportsLoaded) {
+                    onAirportsLoaded(response.data); 
+                }
+            } catch (error) {
+                console.error("Error fetching airports:", error);
+            }
+        };
+
+        fetchAirports();
+    }, []);
+
+    return null; 
+};
+
+export default Airport;
+
+
