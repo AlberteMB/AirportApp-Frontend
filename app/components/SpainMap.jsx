@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 //import { useMap } from "react-leaflet";
-import Airport from "./components/Airport";
+import Airport from "../components/Airport";
 
 const SpainMap = () => {
     const [ loading, setLoading ] = useState(false);
