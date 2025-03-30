@@ -2,9 +2,25 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; 
 import Airport from "../components/Airport";
+import AirportPopup from "../components/AirportPopup";
+import L from "leaflet";
 
-const SpainMap = ({ airports = [] }) => {
-    
+import iconUrl from "leaflet/dist/images/marker-icon.png";
+import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
+import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+// Config icon
+const DefaultIcon = L.icon({
+    iconUrl: iconUrl,
+    iconRetinaUrl: iconRetinaUrl,
+    shadowUrl: shadowUrl,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+L.Marker.prototype.options.icon = DefaultIcon;
+
+const SpainMap = ({ airports = [] }) => {      
     return(
 
         <MapContainer
@@ -18,20 +34,14 @@ const SpainMap = ({ airports = [] }) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
 
-            {/* Marcadores para cada aeropuerto */}
-            {airports.length > 0 &&
-            airports
-            .filter(a => a.latitude !== undefined && a.longitude !== undefined)
-            .map((airport, index) => (
-                <Marker key={index} position={[airport.latitude, airport.longitude]}> // Coordenadas del aeropuerto                
-                    <Popup>
-                        {/* Información del aeropuerto en el popup */}
-                        <strong>{airport.name}</strong><br />
-                        Código: {airport.code}<br />
-                        Latitud: {airport.latitude}, Longitud: {airport.longitude}
-                    </Popup>
-                </Marker>
-            ))}
+        {airports.map((airport) => (
+            <Marker key={airport.id} position={[airport.latitude, airport.longitude]}>
+            {/* Ahora el Popup es hijo de Marker */}
+            <Popup maxWidth={250}>
+                <AirportPopup airport={airport} />
+            </Popup>
+        </Marker>
+    ))}
         </MapContainer>
     );
 };

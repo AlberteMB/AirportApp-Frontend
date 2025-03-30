@@ -1,18 +1,18 @@
 import './App.css';
-import SpainMap from "./components/SpainMap";
+import Airport from "./components/Airport"; 
 import { Box } from '@mui/material';
 
 function App() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      {/* Encabezado opcional */}
+      {/* Encabezado */}
       <Box sx={{ p: 2, backgroundColor: '#5e992c', textAlign: 'center' }}>
-        <h1>Mapa de Aeropuertos en España</h1>
+        <h1>Mapa de Aeropuertos de España</h1>
       </Box>
 
-      {/* Contenedor del mapa */}
-      <Box sx={{ flexGrow: 1 }}>
-        <SpainMap />
+      {/* Contenedor principal */}
+      <Box sx={{ flexGrow: 1, p: 2 }}>
+        <Airport /> {/* Usa el componente Airport que maneja la lógica de datos */}
       </Box>
     </Box>
   );
