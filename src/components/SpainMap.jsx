@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; 
 import Airport from "../components/Airport";
 
-const SpainMap = ({ airports }) => {
+const SpainMap = ({ airports = [] }) => {
     
     return(
 
@@ -19,11 +19,11 @@ const SpainMap = ({ airports }) => {
             />
 
             {/* Marcadores para cada aeropuerto */}
-            {airports.map((airport, index) => (
-                <Marker
-                    key={index}
-                    position={[airport.latitude, airport.longitude]} // Coordenadas del aeropuerto
-                >
+            {airports.length > 0 &&
+            airports
+            .filter(a => a.latitude !== undefined && a.longitude !== undefined)
+            .map((airport, index) => (
+                <Marker key={index} position={[airport.latitude, airport.longitude]}> // Coordenadas del aeropuerto                
                     <Popup>
                         {/* Información del aeropuerto en el popup */}
                         <strong>{airport.name}</strong><br />
