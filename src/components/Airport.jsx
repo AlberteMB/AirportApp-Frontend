@@ -7,6 +7,8 @@ const Airport = () => {
     const [airports, setAirports] = useState([]); // Cambiado a array vacío inicial
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedAirport, setSelectedAirport] = useState(null);
+
 
     useEffect(() => {
         const fetchAirports = async () => {
@@ -53,7 +55,12 @@ const Airport = () => {
                         <Alert severity="error">{error}</Alert>
                     </Box>
                 ) : (
-                    <SpainMap airports={airports} />
+                    <SpainMap 
+                    airports={airports} 
+                    selectedAirport={selectedAirport} 
+                    setSelectedAirport={setSelectedAirport} 
+                    />
+                    
                 )}
             </Box>
         </Box>

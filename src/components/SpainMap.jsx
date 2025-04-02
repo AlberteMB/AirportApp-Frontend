@@ -1,13 +1,14 @@
-//import { useState } from "react";
+import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; 
 import Airport from "../components/Airport";
 import AirportPopup from "../components/AirportPopup";
 import L from "leaflet";
-
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+import FlightsLayer from "../components/FlightsLayer";
+
 // Config icon
 const DefaultIcon = L.icon({
     iconUrl: iconUrl,
@@ -20,13 +21,15 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const SpainMap = ({ airports = [] }) => {      
+const SpainMap = ({ airports = [] }) => {    
+    const [selectedAirport, setSelectedAirport] = useState(null); 
+    
     return(
 
         <MapContainer
             center={[40.416775, -3.703790]} // Coordenadas iniciales (Madrid)
             zoom={6} // Nivel de zoom inicial
-            style={{ width: "100%", height: "500px" }} // Tamaño del mapa
+            style={{ width: "100%", height: "800px" }} // Tamaño del mapa
         >
             {/* Capa base del mapa */}
             <TileLayer
@@ -35,13 +38,25 @@ const SpainMap = ({ airports = [] }) => {
             />
 
         {airports.map((airport) => (
-            <Marker key={airport.id} position={[airport.latitude, airport.longitude]}>
+            <Marker 
+            key={airport.id} 
+            position={[airport.latitude, airport.longitude]}
+            eventHandlers={{
+                click: () => setSelectedAirport(airport),
+            }}
+            >
             {/* Ahora el Popup es hijo de Marker */}
             <Popup maxWidth={250}>
                 <AirportPopup airport={airport} />
             </Popup>
         </Marker>
     ))}
+    { selectedAirport && (    
+        <>
+        <FlightsLayer airportIata={selectedAirport.iata} flightType="Arrival" />
+        <FlightsLayer airportIata={selectedAirport.iata} flightType="Departure" />
+        </>
+        )}
         </MapContainer>
     );
 };

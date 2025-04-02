@@ -1,7 +1,7 @@
 import { useMap, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
-import { getAirportFlights } from '../middleware/aerodatabox';
+import GetAirportFlights  from '../middleware/api-flights';
 
 const flightIcon = L.icon({
 iconUrl: '../icon/plane.png', 
@@ -14,7 +14,7 @@ const map = useMap(); // eslint-disable-line
 
 useEffect(() => {
     const fetchFlights = async () => {
-    const data = await getAirportFlights(airportIata, flightType);
+    const data = await GetAirportFlights(airportIata, flightType);
     setFlights(data);
     };
 
@@ -26,7 +26,7 @@ useEffect(() => {
 return (
     <>
     {flights.map((flight) => (
-        flight.position && (
+        flight.position?.lat && flight.position?.lon && (
         <Marker
             key={flight.number}
             position={[flight.position.lat, flight.position.lon]}
@@ -36,8 +36,8 @@ return (
             <strong>{flight.number}</strong><br />
             Aerolínea: {flight.airline?.name}<br />
             {flightType === 'Arrival' 
-                ? `Origen: ${flight.departure?.airport?.name}`
-                : `Destino: ${flight.arrival?.airport?.name}`}
+            ? `Origen: ${flight.departure?.airport?.name || "Desconocido"}`
+            : `Destino: ${flight.arrival?.airport?.name || "Desconocido"}`}
             </Popup>
         </Marker>
         )
