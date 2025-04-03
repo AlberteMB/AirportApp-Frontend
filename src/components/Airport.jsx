@@ -30,6 +30,7 @@ const Airport = () => {
 
         fetchAirports();
     }, []);
+    
 
     return (
         <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -71,4 +72,3 @@ export default Airport;
 
 
 
-0

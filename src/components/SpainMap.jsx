@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; 
 import Airport from "../components/Airport";
@@ -8,6 +8,7 @@ import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 import FlightsLayer from "../components/FlightsLayer";
+import GetAirportFlights from "../middleware/api-flights";
 
 // Config icon
 const DefaultIcon = L.icon({
@@ -21,8 +22,15 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const SpainMap = ({ airports = [] }) => {    
-    const [selectedAirport, setSelectedAirport] = useState(null); 
+const SpainMap = ({ airports = [] }) => {        
+    const [selectedAirport, setSelectedAirport] = useState(null);
+
+    useEffect(() => {
+        if (selectedAirport) {
+            GetAirportFlights(selectedAirport.iata, selectedAirport.flightType);
+            console.log(`Fetching flights for airport: ${selectedAirport.iata}`);            
+        }
+    }, [selectedAirport]); 
     
     return(
 

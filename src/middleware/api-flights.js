@@ -2,26 +2,40 @@ import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_FLIGHTS_API_KEY;
 const BASE_URL = 'https://aerodatabox.p.rapidapi.com';
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const cache = new Map();
 
 const GetAirportFlights = async (airportIata, flightType = 'Arrival') => {
     try {
+        // Delay de 1 segundo para evitar rate limits
+        await delay(1000);
+
+        const cacheKey = `${airportIata}-${flightType}`;
+
+        // Si ya hay datos en caché, los devolvemos
+        if (cache.has(cacheKey)) {
+            return cache.get(cacheKey);
+        }
+
+        // Hacemos la petición a la API
         const response = await axios.get(`${BASE_URL}/flights/airports/${airportIata}`, {
             params: {
                 direction: flightType,
                 withCargo: false,
                 withPrivate: false,
-                withLeg: true,
+                withLeg: false,
                 destinationCountry: 'ES'
             },
             headers: { 'X-RapidAPI-Key': API_KEY }
         });
 
-        // Verificamos si la respuesta tiene vuelos
+        // Extraemos los vuelos según el tipo (Arrival/Departure)
         const flights = flightType === 'Arrival' 
             ? response.data.arrivals?.flights || [] 
             : response.data.departures?.flights || [];
 
-        return flights.map(flight => ({
+        // Mapeamos los datos para devolverlos en un formato estructurado
+        const formattedFlights = flights.map(flight => ({
             number: flight.number || "Desconocido",
             status: flight.status || "Sin información",
             airline: flight.airline?.name || "Desconocida",
@@ -38,9 +52,20 @@ const GetAirportFlights = async (airportIata, flightType = 'Arrival') => {
                 timeLocal: flight.arrival?.scheduledTimeLocal || "Sin horario"
             }
         }));
+
+        // Guardamos en caché y devolvemos los datos
+        cache.set(cacheKey, formattedFlights);
+        return formattedFlights;
     } catch (error) {
-        console.error("Error fetching flights:", error);
-        return [];
+        // Manejo de errores (Rate Limit: 429)
+        if (error.response?.status === 429) {
+            const retryAfter = error.response.headers['retry-after'] || 5;
+            console.warn(`Rate limit alcanzado. Reintentando en ${retryAfter} segundos...`);
+            await delay(retryAfter * 1000);
+            return GetAirportFlights(airportIata, flightType); // Reintento
+        }
+        console.error("Error al obtener vuelos:", error);
+        throw error; // Relanzamos el error para manejarlo fuera
     }
 };
 
