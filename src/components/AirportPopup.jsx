@@ -25,14 +25,14 @@ return (
         gap: '8px 4px',
         mb: 1
     }}>
-        <Typography variant="body3" fontWeight="500">AITA:</Typography>
-        <Typography variant="body3">{airport.code}</Typography>
+        <Typography variant="body4" fontWeight="500"><strong>IATA:</strong></Typography> 
+        <Typography variant="body4">{airport.code}</Typography>
         
-        <Typography variant="body3" fontWeight="500">Región:</Typography>
-        <Typography variant="body3">{airport.region}</Typography>
+        <Typography variant="body4" fontWeight="500"><strong>Región:</strong></Typography>
+        <Typography variant="body4">{airport.region}</Typography>
         
-        <Typography variant="body3" fontWeight="500">Ciudad:</Typography>
-        <Typography variant="body3">{airport.city}</Typography>
+        <Typography variant="body4" fontWeight="500"><strong>Ciudad:</strong></Typography>
+        <Typography variant="body4">{airport.city}</Typography>
     </Box>
 
     <Divider sx={{ my: 1 }} />
