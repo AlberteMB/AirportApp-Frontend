@@ -1,9 +1,11 @@
 import './App.css';
 import Airport from "./components/Airport"; 
 import { Box } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
+    <Router>
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Encabezado */}
       <Box sx={{ p: 2, backgroundColor: '#5e992c', textAlign: 'center' }}>
@@ -11,10 +13,12 @@ function App() {
       </Box>
 
       {/* Contenedor principal */}
-      <Box sx={{ flexGrow: 1, p: 2 }}>
-        <Airport /> {/* Usa el componente Airport que maneja la lógica de datos */}
+      <Routes>
+        <Route path="/" element={<Airport />} />
+        <Route path="/flights" element={<Airport />} />
+      </Routes>
       </Box>
-    </Box>
+        </Router>
   );
 }
 

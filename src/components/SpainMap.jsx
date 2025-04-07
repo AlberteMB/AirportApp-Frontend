@@ -1,4 +1,3 @@
-//import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; 
 import Airport from "../components/Airport";
@@ -47,4 +46,3 @@ const SpainMap = ({ airports = [] }) => {
 };
 
 export default SpainMap;
-

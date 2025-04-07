@@ -12,7 +12,7 @@ const Airport = () => {
         const fetchAirports = async () => {
             try {       
                 const response = await ApiAirports.get(""); // Asegúrate de incluir la barra /
-                //console.log("Datos recibidos del backend:", response.data);
+                console.log("Datos recibidos del backend:", response.data);
                 
                 if (!Array.isArray(response.data)) {
                     throw new Error("Formato de datos inválido");
@@ -61,7 +61,3 @@ const Airport = () => {
 };
 
 export default Airport;
-
-
-
-0

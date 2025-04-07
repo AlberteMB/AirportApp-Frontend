@@ -1,12 +1,23 @@
-import { useState } from 'react';
-import { Box, Typography, Checkbox, FormControlLabel, Divider } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Box, Typography, Button, FormControlLabel, Divider } from '@mui/material';
 
 const AirportPopup = ({ airport }) => {
-const [departuresChecked, setDeparturesChecked] = useState(false);
-const [arrivalsChecked, setArrivalsChecked] = useState(false);
+const [isFavorite, setIsFavorite] = useState(false);
+
+
+useEffect(() => {
+    const saved = localStorage.getItem('isFavorite');   
+    if (saved === 'true') {
+    setIsFavorite(true);
+    }
+}, []);
+
+const handleToggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    localStorage.setItem('isFavorite', !isFavorite);
+};
 
 return (
-
     <Box sx={{ 
     minWidth: 200,
     p: 1,
@@ -18,58 +29,53 @@ return (
     <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 1 }}>
         {airport.name}
     </Typography>
-      
+    
     <Box sx={{ 
         display: 'grid',
         gridTemplateColumns: 'auto 1fr',
         gap: '8px 4px',
         mb: 1
     }}>
-        <Typography variant="body4" fontWeight="500"><strong>IATA:</strong></Typography> 
-        <Typography variant="body4">{airport.code}</Typography>
+        <Typography variant="body3" fontWeight="500"><strong>IATA:</strong></Typography> 
+        <Typography variant="body3">{airport.code}</Typography>
         
-        <Typography variant="body4" fontWeight="500"><strong>Región:</strong></Typography>
-        <Typography variant="body4">{airport.region}</Typography>
+        <Typography variant="body3" fontWeight="500"><strong>Región:</strong></Typography>
+        <Typography variant="body3">{airport.region}</Typography>
         
-        <Typography variant="body4" fontWeight="500"><strong>Ciudad:</strong></Typography>
-        <Typography variant="body4">{airport.city}</Typography>
+        <Typography variant="body3" fontWeight="500"><strong>Ciudad:</strong></Typography>
+        <Typography variant="body3">{airport.city}</Typography>
     </Box>
 
     <Divider sx={{ my: 1 }} />
-      
-      {/* Checkboxes */}
+    
+      {/* Buttons */}
     <Box sx={{ 
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         gap: '4px'
     }}>
-        <FormControlLabel
-        control={
-            <Checkbox 
-            checked={departuresChecked}
-            onChange={(e) => setDeparturesChecked(e.target.checked)}
-            size="small"
-            sx={{ py: 0 }}
-            />
-        }
-        label="Salidas"
-        sx={{ m: 0 }}
-        />
-        <FormControlLabel
-        control={
-            <Checkbox 
-            checked={arrivalsChecked}
-            onChange={(e) => setArrivalsChecked(e.target.checked)}
-            size="small"
-            sx={{ py: 0 }}
-            />
-        }
-        label="Llegadas"
-        sx={{ m: 0 }}
-        />
+        <Button 
+        size="small"
+        
+        onClick={handleToggleFavorite}
+        sx={{
+            color: isFavorite ? 'gold' : 'gray',
+            borderColor: isFavorite ? 'gold' : 'gray',
+            '&:hover': {
+            borderColor: isFavorite ? 'gold' : 'gray',
+            backgroundColor: isFavorite ? '#fff9e6' : '#f5f5f5',
+            }
+        }}      
+        >
+        Favorito
+        </Button>
+        <Button 
+        size="small"
+        >
+            Registro
+        </Button>
     </Box>
     </Box>
-  
 );
 };
 
