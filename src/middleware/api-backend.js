@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const ApiAirports = axios.create({
-    baseURL: "http://localhost:8080/api/airports",
+const instance = axios.create({
+    baseURL: "http://localhost:8080/api/v1/airports",
 });
 
-export default ApiAirports;
+export default instance;
