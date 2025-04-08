@@ -1,20 +1,14 @@
-import { useState, useEffect } from 'react';
+//import { useState } from 'react';
 import { Box, Typography, Button, FormControlLabel, Divider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const AirportPopup = ({ airport }) => {
-const [isFavorite, setIsFavorite] = useState(false);
+const navigate = useNavigate();    
 
+const handleRegisterClick = () => {
+    navigate("/register", { state: { airport: airport } }); 
 
-useEffect(() => {
-    const saved = localStorage.getItem('isFavorite');   
-    if (saved === 'true') {
-    setIsFavorite(true);
-    }
-}, []);
-
-const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    localStorage.setItem('isFavorite', !isFavorite);
+    
 };
 
 return (
@@ -56,23 +50,10 @@ return (
     }}>
         <Button 
         size="small"
-        
-        onClick={handleToggleFavorite}
-        sx={{
-            color: isFavorite ? 'gold' : 'gray',
-            borderColor: isFavorite ? 'gold' : 'gray',
-            '&:hover': {
-            borderColor: isFavorite ? 'gold' : 'gray',
-            backgroundColor: isFavorite ? '#fff9e6' : '#f5f5f5',
-            }
-        }}      
+        onClick={handleRegisterClick}
+        variant="contained"
         >
-        Favorito
-        </Button>
-        <Button 
-        size="small"
-        >
-            Registro
+        Registro
         </Button>
     </Box>
     </Box>
