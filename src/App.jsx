@@ -1,5 +1,6 @@
 import './App.css';
 import Airport from "./components/Airport"; 
+import FlightRegister from "./components/FlightRegister";
 import { Box } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -15,7 +16,7 @@ function App() {
       {/* Contenedor principal */}
       <Routes>
         <Route path="/" element={<Airport />} />
-        <Route path="/flights" element={<Airport />} />
+        <Route path="/flights" element={<FlightRegister />} />
       </Routes>
       </Box>
         </Router>
