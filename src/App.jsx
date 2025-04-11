@@ -16,7 +16,7 @@ function App() {
       {/* Contenedor principal */}
       <Routes>
         <Route path="/" element={<Airport />} />
-        <Route path="/flights" element={<FlightRegister />} />
+        <Route path="/flights/:airportId" element={<FlightRegister />} />
       </Routes>
       </Box>
         </Router>

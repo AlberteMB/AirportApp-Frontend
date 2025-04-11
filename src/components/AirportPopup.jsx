@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const AirportPopup = ({ airport }) => {
 const navigate = useNavigate();    
 
+
 const handleRegisterClick = () => {
-    navigate("/register", { state: { airport: airport } }); 
+    navigate("/flights", { state: { airport: airport } }); 
 
     
 };

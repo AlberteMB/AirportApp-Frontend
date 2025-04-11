@@ -1,11 +1,11 @@
-import flightService from "./flightService";
-import planeService from "./planeService";
-import airportService from "./airportService";
+import FlightService from "./flightService";
+import PlaneService from "./planeService";
+import AirportService from "./airportService";
 
-const Service = {
-    flight: flightService,
-    plane: planeService,
-    airport: airportService,
+const Services = {
+    flight: FlightService,
+    plane: PlaneService,
+    airport: AirportService,
 };
 
-export default Service;
+export default Services;

@@ -1,11 +1,10 @@
-import axios from "./api-backend.js"
+import instance from "./api-backend.js"
 
-const airportService = {
+const AirportService = {
     getAllAirports: async () => {
         try {
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/airports`
-            );
+            const response = await instance.get("/airports");
+            console.log("Datos recibidos del backend:", response.data);
             return response.data;
         } catch (error) {
             console.error("Error fetching airports:", error);
@@ -14,4 +13,4 @@ const airportService = {
     }
 };
 
-    export default airportService;
+    export default AirportService;

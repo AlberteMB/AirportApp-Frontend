@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ApiAirports from "../middleware/api-backend"; 
+import Services from "../middleware/services";
 import SpainMap from "../components/SpainMap";
 import { Box, Typography, CircularProgress, Alert } from '@mui/material';
 
@@ -11,13 +11,13 @@ const Airport = () => {
     useEffect(() => {
         const fetchAirports = async () => {
             try {       
-                const response = await ApiAirports.get(""); // Asegúrate de incluir la barra /
-                console.log("Datos recibidos del backend:", response.data);
+                const data = await Services.airport.getAllAirports(); 
+                console.log("Datos recibidos del backend:", data);
                 
-                if (!Array.isArray(response.data)) {
+                if (!Array.isArray(data)) {
                     throw new Error("Formato de datos inválido");
                 }
-                setAirports(response.data);
+                setAirports(data);
             } catch (error) {
                 console.error("Error fetching airports:", error);
                 setError(error.message || "Error al cargar los aeropuertos");

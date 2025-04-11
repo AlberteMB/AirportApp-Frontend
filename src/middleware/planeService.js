@@ -1,6 +1,6 @@
 import axios from "./api-backend.js"
 
-const planeService = {
+const PlaneService = {
     getAllPlanes: async () => {
         try {
             const response = await axios.get(
@@ -14,4 +14,4 @@ const planeService = {
     }
 };
 
-    export default planeService;
+    export default PlaneService;
