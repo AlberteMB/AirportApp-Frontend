@@ -7,6 +7,7 @@ import {
     TableContainer,
     TableRow,
     Typography,
+    TableHead,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAppServices } from "../middleware/appServicesContext";
@@ -28,12 +29,12 @@ const FlightRegister = () => {
             if (!airportId) return;
     
             try {
-                const arrivals = await appService.flightService.searchFlightsByAirports({
+                const arrivals = await appService.flight.searchFlightsByAirports({
                     arrivalAirportId: airportId,
                 });
                 setArrivalFlights(arrivals);
     
-                const departures = await appService.flightService.searchFlightsByAirports({
+                const departures = await appService.flight.searchFlightsByAirports({
                     departureAirportId: airportId,
                 });
                 setDepartureFlights(departures);
@@ -65,6 +66,14 @@ const FlightRegister = () => {
                     Vuelos de salida
                 </Typography>
                 <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Flight Number</TableCell>
+                            <TableCell>Departure Time</TableCell>
+                            <TableCell>Arrival Time</TableCell>
+                            <TableCell>Plane</TableCell>                            
+                        </TableRow>
+                    </TableHead>
                     <TableBody>
                         {departureFlights.map((flight) => (
                             <TableRow key={flight.id}>
@@ -84,6 +93,14 @@ const FlightRegister = () => {
                     Vuelos de llegada
                 </Typography>
                 <Table>
+                <TableHead>
+                        <TableRow>
+                            <TableCell>Flight Number</TableCell>
+                            <TableCell>Departure Time</TableCell>
+                            <TableCell>Arrival Time</TableCell>                            
+                            <TableCell>Plane</TableCell>                            
+                        </TableRow>
+                    </TableHead>
                     <TableBody>
                         {arrivalFlights.map((flight) => (
                             <TableRow key={flight.id}>
