@@ -11,22 +11,39 @@ import {
 import React, { useEffect, useState } from "react";
 import { useAppServices } from "../middleware/appServicesContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const FlightRegister = () => {
     const appService = useAppServices();
     const location = useLocation();
     const navigate = useNavigate();
     const selectedAirport = location.state?.airport;
+    const { airportId } = useParams();
 
     const [arrivalFlights, setArrivalFlights] = useState([]);
     const [departureFlights, setDepartureFlights] = useState([]);
 
     useEffect(() => {
-        if (selectedAirport) {
-            setArrivalFlights(selectedAirport.arrivalFlights || []);
-            setDepartureFlights(selectedAirport.departureFlights || []);
-        }
-    }, [selectedAirport]);
+        const fetchFlights = async () => {
+            if (!airportId) return;
+    
+            try {
+                const arrivals = await appService.flightService.searchFlightsByAirports({
+                    arrivalAirportId: airportId,
+                });
+                setArrivalFlights(arrivals);
+    
+                const departures = await appService.flightService.searchFlightsByAirports({
+                    departureAirportId: airportId,
+                });
+                setDepartureFlights(departures);
+            } catch (error) {
+                console.error("Error fetching flights", error);
+            }
+        };
+    
+        fetchFlights();
+    }, [airportId]);
 
     const handleBackClick = () => {
         navigate(-1); // Vuelve a la página anterior (mapa)

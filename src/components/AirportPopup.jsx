@@ -7,7 +7,7 @@ const navigate = useNavigate();
 
 
 const handleRegisterClick = () => {
-    navigate("/flights", { state: { airport: airport } }); 
+    navigate(`/flights/${airport.id}`);
 
     
 };
